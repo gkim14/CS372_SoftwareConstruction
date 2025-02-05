@@ -9,7 +9,7 @@ const colName = "myDemoCollection"
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post("/", async(req, res) => {
+app.post("/submit", async(req, res) => {
   console.log(`${req.body.name}`);
   myname = `${req.body.name}`;
   run(myname).catch(console.dir)
@@ -63,5 +63,5 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/myDemoWebpage.html');
 });
 app.listen(port, () => {
-  console.log(`Server running on port${port}`);
+  console.log(`Server running on port ${port}`);
 });
