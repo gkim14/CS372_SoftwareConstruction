@@ -26,7 +26,10 @@ app.post("/display", async(req,res) => {
     res.write('<h1> Display Database </h1>')
     res.write('<ul>');
     data.forEach(item => {
-        res.write(`<li>${item.name}</li>`);
+        if(item.name)
+          res.write(`<li>${item.name}</li>`);
+        if(item.EnteredName)
+          res.write(`<li>${item.EnteredName}</li>`);
     });
     res.write('</ul>');
     res.end();  
@@ -48,7 +51,7 @@ async function run(myname) {
     const mycollection = mydatabase.collection(colName);
     // create a document to insert
     const doc = {
-      name: myname,
+      EnteredName: myname,
     }
     const result = await mycollection.insertOne(doc);
 
