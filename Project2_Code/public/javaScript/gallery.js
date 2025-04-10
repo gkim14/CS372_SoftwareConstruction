@@ -64,50 +64,115 @@ function logout() {
         });
 }
 
-
 function loadMovies() {
     fetch('/movies')
         .then(response => response.json())
         .then(movies => {
             const container = document.getElementById('galleryContainer');
-            container.innerHTML = ""; // Clear existing content
+            container.innerHTML = "";
 
-            // Sort movies alphabetically by title
+            // Sort movies alphabetically
             movies.sort((a, b) => a.title.localeCompare(b.title));
 
-            // Loop through the sorted movies and display them
+            // Create preview popup container
+            const previewPopup = createPreviewPopup();
+            document.body.appendChild(previewPopup);
+
+            // Loop through movies and render them
             movies.forEach(movie => {
-                const movieDiv = document.createElement('div');
-                movieDiv.className = 'movieTile';
-                movieDiv.style.width = '250px';
-                movieDiv.style.textAlign = 'center';
-                movieDiv.setAttribute('dataTitle', movie.title.toLowerCase()); // Store title for search comparison
-
-                const img = document.createElement('img');
-                img.src = movie.imagePath;
-                img.alt = movie.title;
-                img.style.width = '100%';
-                img.style.borderRadius = '10px';
-
-                const caption = document.createElement('div');
-                caption.textContent = movie.title;
-                caption.style.marginTop = '8px';
-                caption.style.fontWeight = 'bold';
-
-                // Add event listener for image click to navigate to the movie page
-                img.addEventListener('click', () => {
-                    window.location.href = `movie.html?id=${movie._id}`; // Pass the movie's ID in the URL
-                });
-
-                movieDiv.appendChild(img);
-                movieDiv.appendChild(caption);
+                const movieDiv = createMovieTile(movie);
                 container.appendChild(movieDiv);
+
+                setupMovieTileInteractions(movie, movieDiv, previewPopup);
             });
         })
         .catch(error => {
             console.error("Error loading movies:", error);
         });
 }
+
+function createPreviewPopup() {
+    let previewPopup = setPopupStyle(document.createElement('div'));
+    const iframePreview = document.createElement('iframe');
+    iframePreview.style.width = '100%';
+    iframePreview.style.height = '100%';
+    iframePreview.style.border = 'none';
+    iframePreview.allow = 'autoplay; encrypted-media';
+    iframePreview.allowFullscreen = true;
+    previewPopup.appendChild(iframePreview);
+    return previewPopup;
+}
+
+function setPopupStyle(previewPopup) {
+    previewPopup.id = "previewPopup";
+    previewPopup.style.position = 'fixed';
+    previewPopup.style.display = 'none';
+    previewPopup.style.border = 'none';
+    previewPopup.style.zIndex = '1000';
+    previewPopup.style.width = '320px';
+    previewPopup.style.height = '180px';
+    previewPopup.style.borderRadius = '10px';
+    previewPopup.style.overflow = 'hidden';
+    previewPopup.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+    previewPopup.style.bottom = '10px';  // Set distance from the bottom of the viewport
+    previewPopup.style.right = '10px';   // Set distance from the right of the viewport
+    return previewPopup;
+}
+
+function createMovieTile(movie) {
+    const movieDiv = document.createElement('div');
+    movieDiv.className = 'movieTile';
+    movieDiv.style.width = '250px';
+    movieDiv.style.textAlign = 'center';
+    movieDiv.setAttribute('dataTitle', movie.title.toLowerCase());
+
+    const img = document.createElement('img');
+    img.src = movie.imagePath;
+    img.alt = movie.title;
+    img.style.width = '100%';
+    img.style.borderRadius = '10px';
+    img.style.cursor = 'pointer';
+
+    const caption = document.createElement('div');
+    caption.textContent = movie.title;
+    caption.style.marginTop = '8px';
+    caption.style.fontWeight = 'bold';
+
+    movieDiv.appendChild(img);
+    movieDiv.appendChild(caption);
+
+    return movieDiv;
+}
+
+function setupMovieTileInteractions(movie, movieDiv, previewPopup) {
+    const img = movieDiv.querySelector('img');
+    const iframePreview = previewPopup.querySelector('iframe');
+
+    // Handle click - go to movie page
+    img.addEventListener('click', () => {
+        window.location.href = `movie.html?id=${movie._id}`;
+    });
+
+    // Show video preview on hover
+    img.addEventListener('mouseenter', () => {
+        const videoId = getYouTubeVideoId(movie.videoUrl);
+        iframePreview.src = `${movie.videoUrl}?autoplay=1&mute=1
+            &controls=0&loop=1&playlist=${videoId}`;
+        previewPopup.style.display = 'block'; // Show the preview
+    });
+
+    // Hide preview when mouse leaves
+    img.addEventListener('mouseleave', () => {
+        previewPopup.style.display = 'none';
+        iframePreview.src = ''; // Stop the video
+    });
+}
+
+function getYouTubeVideoId(url) {
+    const match = url.match(/\/embed\/([a-zA-Z0-9_-]+)/);
+    return match ? match[1] : "";
+}
+
 
 function loadLikedMovies() {
     fetch('/user/likedMovies')
@@ -117,19 +182,6 @@ function loadLikedMovies() {
             likedBar.innerHTML = ""; // Clear old content
 
             if (movies.length === 0) {
-                const message = document.createElement('div');
-                message.textContent = "You haven't liked any movies yet!";
-                message.style.color = "#666";
-                message.style.fontStyle = "italic";
-                message.style.marginTop = '10px';
-                likedBar.appendChild(message);
-
-                const placeholder = document.createElement('div');
-                placeholder.style.display = 'inline-block';
-                placeholder.style.width = '150px';
-                placeholder.style.height = '225px';
-                placeholder.style.marginRight = '15px';
-                likedBar.appendChild(placeholder);
                 return;
             }
 
@@ -137,38 +189,45 @@ function loadLikedMovies() {
 
             movies.sort((a, b) => a.title.localeCompare(b.title));
 
+            const previewPopup = createPreviewPopup();
+            document.body.appendChild(previewPopup);
+
             movies.forEach(movie => {
-                const movieDiv = document.createElement('div');
-                movieDiv.style.display = 'inline-block';
-                movieDiv.style.marginRight = '15px';
-                movieDiv.style.textAlign = 'center';
-                movieDiv.style.width = '150px';
+                const movieDiv = setLikedMovieStyle(movie);
 
-                const img = document.createElement('img');
-                img.src = movie.imagePath;
-                img.alt = movie.title;
-                img.style.width = '100%';
-                img.style.borderRadius = '8px';
-                img.style.cursor = 'pointer';
-
-                const title = document.createElement('div');
-                title.textContent = movie.title;
-                title.style.fontSize = '14px';
-                title.style.marginTop = '6px';
-                title.style.fontWeight = 'bold';
-
-                img.addEventListener('click', () => {
-                    window.location.href = `movie.html?id=${movie._id}`;
-                });
-
-                movieDiv.appendChild(img);
-                movieDiv.appendChild(title);
                 likedBar.appendChild(movieDiv);
+                setupMovieTileInteractions(movie, movieDiv, previewPopup);
             });
         })
         .catch(error => {
             console.error("Error loading liked movies:", error);
         });
+}
+
+function setLikedMovieStyle(movie) {
+    const movieDiv = document.createElement('div');
+    movieDiv.style.display = 'inline-block';
+    movieDiv.style.marginRight = '15px';
+    movieDiv.style.textAlign = 'center';
+    movieDiv.style.width = '150px';
+
+    const img = document.createElement('img');
+    img.src = movie.imagePath;
+    img.alt = movie.title;
+    img.style.width = '100%';
+    img.style.borderRadius = '8px';
+    img.style.cursor = 'pointer';
+
+    const title = document.createElement('div');
+    title.textContent = movie.title;
+    title.style.fontSize = '14px';
+    title.style.marginTop = '6px';
+    title.style.fontWeight = 'bold';
+
+    movieDiv.appendChild(img);
+    movieDiv.appendChild(title);
+
+    return movieDiv;
 }
 
 // Call the function when the page is loaded
@@ -205,8 +264,6 @@ function searchGallery() {
     });
 }
 
-
-// Hook up search button
 document.addEventListener("DOMContentLoaded", () => {
     checkLogoutStatus();
     loadLikedMovies() 

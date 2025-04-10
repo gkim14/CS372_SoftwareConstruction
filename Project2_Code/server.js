@@ -101,7 +101,7 @@ app.post('/create', async (req, res) => {
       await mycollection.insertOne({
         "username": username,
         "password": hashPassword,
-        "role": "Viewer",
+        "role": ["Viewer"],
         "likedMovies": [],
         "dislikedMovies": []
       })
