@@ -32,20 +32,34 @@
             <button name="logoutButton" id="logoutButton" 
                 style="display:none;">Logout</button>
         </div>
-        <div id="searchBarContainer" style="text-align:center;
-                 margin: 20px;">
-            <input type="text" id="searchInput" placeholder=
-            "Search for a movie..." style="padding:8px; width: 50%;">
-            <button id="searchButton" style="padding: 8px;">
-                Search</button>
-        </div>
+    </header>
+    <div id="searchBarContainer" name="searchBar" style=
+        "text-align:center; margin: 20px;">
+        <input type="text" id="searchInput" placeholder=
+        "Search for a movie..." style="padding:8px; width: 50%;">
+        <button id="searchButton" style="padding: 8px;">
+            Search</button>
+    </div>
+    <h2 name="headerTwo" id="headerTwo">
+        Liked Movies
+    </h2>
+    <div style="width: 100%; height: 4px; background-color: #333;
+            margin-top: 20px;"></div>
+    <div id="likedMoviesBar" name="likedMovies" style="margin: 
+        20px;overflow-x: auto; white-space: nowrap; display: 
+        none;">
+        <!-- Liked movies here -->
+    </div>
+    <div style="width: 100%; height: 4px; background-color: #333;
+        margin-bottom: 40px;"></div>
         
-    <br><br>
-
+    <h2 name="headerTwo" id="headerTwo">
+        Movie List
+    </h2>
     <div id="galleryContainer" class="gallery-container" style=
         "display: flex; flex-wrap: wrap; justify-content: center; 
         gap: 20px;">
-        <!-- Images will be injected here -->
+        <!-- Gallery Movies here -->
       </div>
       
 

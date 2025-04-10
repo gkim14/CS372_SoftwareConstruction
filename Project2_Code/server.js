@@ -28,6 +28,19 @@ app.use(express.json());
 const uri = "mongodb://localhost:27017";
 const client = new MongoClient(uri);
 
+let db;
+
+async function connectToDatabase() {
+  try {
+    await client.connect();
+    db = client.db(dbName);
+    console.log("Connected to MongoDB");
+  } catch (err) {
+    console.error("Failed to connect to MongoDB:", err);
+  }
+}
+
+
 // Route handler for login POST request
 //    Input Parameters: 
 //        req: object containing user data
@@ -76,9 +89,7 @@ app.post('/create', async (req, res) => {
   .digest('hex');
 
   try {
-    await client.connect();
-    const mydatabase = client.db(dbName);
-    const mycollection = mydatabase.collection(accColName);
+    const mycollection = db.collection(accColName);
 
     const existingUser = 
       await mycollection.findOne({ "username": username });
@@ -100,8 +111,6 @@ app.post('/create', async (req, res) => {
       console.error("Error creating account", error);
       res.status(500).json({ success: false, message: 
                               'Failed to check account' });
-  }finally {
-    await client.close();
   }
 });
 
@@ -145,18 +154,39 @@ app.post('/logout', (req, res) => {
   res.json({ success: true, message: "Logged out successfully." });
 });
 
+app.get('/user/likedMovies', async (req, res) => {
+  if (!currentUser) {
+    return res.status(401).json({ success: false, message: "Not logged in" });
+  }
+
+  try {
+    const users = db.collection(accColName);
+    const movies = db.collection(movColName);
+
+    const user = await users.findOne({ username: currentUser });
+    if (!user || !user.likedMovies) {
+      return res.json([]);
+    }
+
+    const likedMovieTitles = user.likedMovies;
+    const likedMovies = await movies.find(
+      { title: { $in: likedMovieTitles } }).toArray();
+
+    res.json(likedMovies);
+  } catch (err) {
+    console.error("Error fetching liked movies:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  } finally {}
+});
+
 // Endpoint to get all movies from the "movies" collection
 app.get('/movies', async (req, res) => {
   try {
-    await client.connect();
-    const database = client.db(dbName);
-    const movies = await database.collection(movColName).find().toArray();
+    const movies = await db.collection(movColName).find().toArray();
     res.json(movies);
   } catch (error) {
     console.error("Failed to fetch movies:", error);
     res.status(500).json({ error: "Failed to fetch movies" });
-  } finally {
-    await client.close();
   }
 });
 
@@ -169,9 +199,7 @@ app.get('/movie', async (req, res) => {
   }
 
   try {
-    await client.connect();
-    const database = client.db(dbName);
-    const movie = await database.collection(movColName).findOne({ _id: new ObjectId(movieId) });
+    const movie = await db.collection(movColName).findOne({ _id: new ObjectId(movieId) });
 
     if (!movie) {
       return res.status(404).json({ error: "Movie not found" });
@@ -180,8 +208,6 @@ app.get('/movie', async (req, res) => {
   } catch (error) {
     console.error("Error fetching movie details:", error);
     res.status(500).json({ error: "Failed to fetch movie details" });
-  } finally {
-    await client.close();
   }
 });
 
@@ -193,12 +219,10 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
   }
 
   try {
-      await client.connect();
-      const database = client.db(dbName);
       const oId = new ObjectId(movieId);
-      const movie = await database.collection(movColName).
+      const movie = await db.collection(movColName).
                                     findOne({ _id: oId });
-      const mycollection = database.collection(accColName);
+      const mycollection = db.collection(accColName);
 
       if (!movie) {
           return res.status(404).json({ success: false, message: 
@@ -213,7 +237,7 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
       // Increment the likes or dislikes count
       if (type === 'like') {
           if(!isLiked && !isDisliked) {
-            await database.collection(movColName).updateOne(
+            await db.collection(movColName).updateOne(
               { _id: oId },
               { $inc: { likes: 1 } } // Increment the likes count by 1
             );
@@ -223,7 +247,7 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
             );
           }
           else if(isDisliked){
-            await database.collection(movColName).updateOne(
+            await db.collection(movColName).updateOne(
               { _id: oId },
               { $inc: { likes: 1, dislikes:-1 } } // Increment the likes count by 1
             );
@@ -238,7 +262,7 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
           }
       } else if (type === 'dislike') {
           if(!isLiked && !isDisliked) {
-            await database.collection(movColName).updateOne(
+            await db.collection(movColName).updateOne(
               { _id: oId },
               { $inc: { dislikes: 1 } } // Increment the likes count by 1
             );
@@ -248,7 +272,7 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
             );
           }
           else if(isLiked){
-            await database.collection(movColName).updateOne(
+            await db.collection(movColName).updateOne(
               { _id: oId },
               { $inc: { likes: -1, dislikes:1 } } // Increment the likes count by 1
             );
@@ -264,7 +288,7 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
       }
 
       // Fetch the updated movie to return the new count
-      const updatedMovie = await database.collection(movColName).
+      const updatedMovie = await db.collection(movColName).
                                             findOne({ _id: oId });
 
       res.json({ success: true, movie: updatedMovie });
@@ -272,8 +296,6 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
       console.error("Error updating like/dislike:", error);
       res.status(500).json({ success: false, message: 
                               'Failed to update like/dislike.' });
-  } finally {
-      await client.close();
   }
 });
 
@@ -293,9 +315,7 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
 //        username does not exist, an error message is returned.
 async function checkAccountInfo(myname, mypass) {
   try {
-    await client.connect();
-    const mydatabase = client.db(dbName);
-    const mycollection = mydatabase.collection(accColName);
+    const mycollection = db.collection(accColName);
 
     const existingUser = 
       await mycollection.findOne({ username: myname });
@@ -321,9 +341,7 @@ async function checkAccountInfo(myname, mypass) {
       }
     } else
       return { success: false, message: "Username is not valid."};
-  } finally {
-    await client.close();
-  }
+  } finally {}
 }
 
 // Function to delete the user account from the database
@@ -339,9 +357,7 @@ async function checkAccountInfo(myname, mypass) {
 //        an error message is logged.
 async function deleteAccount(username) {
   try {
-    await client.connect();
-    const mydatabase = client.db(dbName);
-    const mycollection = mydatabase.collection(accColName);
+    const mycollection = db.collection(accColName);
 
     const result = await mycollection.deleteOne({ username });
     if (result.deletedCount === 1) {
@@ -350,9 +366,7 @@ async function deleteAccount(username) {
     } else {
       console.log(`No account found with username ${username}.`);
     }
-  } finally {
-    await client.close();
-  }
+  } finally {}
 }
 
 // Start the server and listen for incoming requests
@@ -363,9 +377,11 @@ async function deleteAccount(username) {
 //    Description: 
 //        This function starts the server on the specified port 
 //        and logs a message indicating the server is running.
-app.listen(port, () => {
+connectToDatabase().then(() => {
+  app.listen(port, () => {
     console.log(`Server running on port ${port}`);
   });
+});
 
 // Serve the home.html file when the root URL is accessed
 //    Input Parameters: 

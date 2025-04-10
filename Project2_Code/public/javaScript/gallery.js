@@ -109,7 +109,67 @@ function loadMovies() {
         });
 }
 
+function loadLikedMovies() {
+    fetch('/user/likedMovies')
+        .then(response => response.json())
+        .then(movies => {
+            const likedBar = document.getElementById('likedMoviesBar');
+            likedBar.innerHTML = ""; // Clear old content
 
+            if (movies.length === 0) {
+                const message = document.createElement('div');
+                message.textContent = "You haven't liked any movies yet!";
+                message.style.color = "#666";
+                message.style.fontStyle = "italic";
+                message.style.marginTop = '10px';
+                likedBar.appendChild(message);
+
+                const placeholder = document.createElement('div');
+                placeholder.style.display = 'inline-block';
+                placeholder.style.width = '150px';
+                placeholder.style.height = '225px';
+                placeholder.style.marginRight = '15px';
+                likedBar.appendChild(placeholder);
+                return;
+            }
+
+            likedBar.style.display = "block";
+
+            movies.sort((a, b) => a.title.localeCompare(b.title));
+
+            movies.forEach(movie => {
+                const movieDiv = document.createElement('div');
+                movieDiv.style.display = 'inline-block';
+                movieDiv.style.marginRight = '15px';
+                movieDiv.style.textAlign = 'center';
+                movieDiv.style.width = '150px';
+
+                const img = document.createElement('img');
+                img.src = movie.imagePath;
+                img.alt = movie.title;
+                img.style.width = '100%';
+                img.style.borderRadius = '8px';
+                img.style.cursor = 'pointer';
+
+                const title = document.createElement('div');
+                title.textContent = movie.title;
+                title.style.fontSize = '14px';
+                title.style.marginTop = '6px';
+                title.style.fontWeight = 'bold';
+
+                img.addEventListener('click', () => {
+                    window.location.href = `movie.html?id=${movie._id}`;
+                });
+
+                movieDiv.appendChild(img);
+                movieDiv.appendChild(title);
+                likedBar.appendChild(movieDiv);
+            });
+        })
+        .catch(error => {
+            console.error("Error loading liked movies:", error);
+        });
+}
 
 // Call the function when the page is loaded
 //    Input Parameters: 
@@ -128,11 +188,6 @@ function checkLogoutStatus(){
     const logoutButton = document.getElementById("logoutButton");
     logoutButton.addEventListener("click", logout);
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-    checkLogoutStatus();
-    loadMovies();
-});
 
 
 function searchGallery() {
@@ -153,6 +208,10 @@ function searchGallery() {
 
 // Hook up search button
 document.addEventListener("DOMContentLoaded", () => {
+    checkLogoutStatus();
+    loadLikedMovies() 
+    loadMovies();
+
     const searchButton = document.getElementById("searchButton");
     const searchInput = document.getElementById("searchInput");
 
