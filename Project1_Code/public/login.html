@@ -1,0 +1,57 @@
+<!-- HTML file for login webpage --> 
+
+<!DOCTYPE html>
+<html>
+<body>
+    <header name="header" id="header">
+        <h1 name="headingOne" id="headingOne">
+            <img src="tv.png" name="logo" id="logoImage" alt=
+                "Movie TV Logo" width="70" height="50" > <br>
+            Movie Company <br>
+        </h1>
+        <form name="navigationForm" id="navigationForm" style=
+            "display:inline-block;">
+            <input type="submit" id="submitHomePage" value="Home" 
+                formaction="home.html" name="submitHomePage" />
+            <input type="submit" id="submitLoginPage" value="Login" 
+                formaction="login.html" name="submitLoginPage" />
+            <input type="submit" id="submitGalleryPage" value=
+                "Gallery" formaction="gallery.html" name=
+                "submitGalleryPage"/>
+        </form>  
+        
+    </header>
+
+    <br>
+    <br><br>
+    <div name="loginFormDiv" id="loginFormDiv" >
+        <form name="login" id="loginForm" action="/login" 
+            method="POST">
+            Username:
+            <input name="username" id="textUserName" required type=
+            "text" oninput="validateUsername('textUserName')"><br><br>
+            Password:
+            <input type="password" name="password" id=
+                "passwordUserPassword" required oninput=
+                "validatePassword('passwordUserPassword')">
+            <input type="checkbox" onclick="togglePassword()"
+                name="showPassword" id="showPassword">
+                 Show Password<br><br>
+            <input type="submit" name="submitLogin" 
+                id="submitLoginInfo" value="Submit">
+        </form>
+    </div>
+    <br><br>
+ 
+    <footer name="loginFooter" id="loginFooter">
+        <br><br>
+        © 2025 Movie Company <br>
+        <a href="mailto:moviecompany@example.com">
+            moviecompany@example.com</a>
+    </footer>
+   
+    <script id="loginJS" name="loginJS" src="/javaScript/login.js">
+        </script>
+
+</body>
+</html>

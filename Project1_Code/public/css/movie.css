@@ -1,0 +1,15 @@
+
+/* Center the iframe using flexbox */
+.iframe-container {
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+    height: 100vh; /* Make the container fill the height of the viewport */
+  }
+  
+  iframe {
+    width: 80%; /* Set iframe width */
+    height: 500px; /* Set iframe height */
+    max-width: 100%; /* Make sure it doesn't overflow */
+  }
+  

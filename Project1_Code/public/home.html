@@ -1,0 +1,89 @@
+<!-- HTML file for home webpage --> 
+
+<!DOCTYPE html>
+<html>
+<head id="head"name="head">
+    <link rel="stylesheet" href="css/home.css" name="stylesheet"
+        id="stylesheet"> 
+</head>
+<body>
+    <header id="header"name="header">
+        <h1 id="headingOne" name="headingOne">
+            <img src="tv.png" name="logo" id="logoImage" alt=
+                "Movie TV Logo" width="70" height="50" > <br>
+            Movie Company <br>
+        </h1>
+        <div name="headerButtons" id="headerButtons" 
+            style="display: flex;justify-content: space-between; 
+            align-items: center; width: 100%;">
+            <form name="navigationForm" id="navigationForm" style=
+            "display:inline-block;">
+                <input type="submit" id="submitHomePage" value="Home"
+                    formaction="home.html" name="submitHomePage" />
+                <input type="submit" id="submitLoginPage" value=
+                    "Login" formaction="login.html" 
+                    name="submitLoginPage" />
+                <input type="submit" id="submitGalleryPage" value=
+                    "Gallery" formaction="gallery.html" name=
+                    "submitGalleryPage"/>
+            </form> 
+            <button name="logoutButton" id="logoutButton" 
+                style="display:none;">Logout</button>
+        </div>
+    <br><br>
+    <div name="slideshowContainer" id="slideshowContainer" class="slideshow-container" 
+        name="slideshowContainer">
+        <div id="slide1" class="mySlides" name="slide1">
+            <img src="slideImages/slide1.png" id="imageSlide1" 
+                style="width:100%" name="imageSlide1"/>
+        </div>
+        <div id="slide2" class="mySlides" name="slide2">
+            <img src="slideImages/slide2.png" id="imageSlide2" 
+                style="width:100%" name="imageSlide2"/>
+        </div>
+        <div id="slide3" class="mySlides" name="slide3">
+            <img src="slideImages/slide3.png" id="imageSlide3" 
+                style="width:100%" name="imageSlide3"/>
+        </div>
+        <div id="slide4" class="mySlides" name="slide4">
+            <img src="slideImages/slide4.png" id="imageSlide4" 
+                style="width:100%" name="imageSlide4"/>
+        </div>
+    </div>
+
+    <h2 name="headerTwo" id="headerTwo">
+        Everything is free on the seven seas.
+    </h2>
+
+    <p name="paragraphOne" id="paragraphOne" style="font-size:12pt">
+        Our company is dedicated to providing the best possible
+        movie viewing experience. We take great pride in our work
+        to provide you with the highest quality productions of the
+        greatest hits of all time. Browse through our expansive list
+        of classic movies that range from any genre you could wish
+        for. Our high quality service can provide you with any movie
+        you could want for the best viewing experience anywhere you
+        want.
+    </p>
+    <p name="paragraphTwo" id="paragraphTwo" style="font-size:12pt">
+        In addition to our expansive library of films, we also
+        provide an amazing user-friendly experience with our easy
+        to navigate website. We also provide many quality of life
+        features that come along with signing up for our website,
+        such as saving your watched movies so you can resume right
+        where you left off and allowing for customized
+        recommendations.
+    </p>
+
+    <footer name="homeFooter" id="homeFooter">
+        <br><br>
+        © 2025 Movie Company <br>
+        <a href="mailto:moviecompany@example.com">
+            moviecompany@example.com</a>
+    </footer>
+
+    <script name="homeJS" id="homeJS" src="/javaScript/home.js">
+        </script>
+
+</body>  
+</html>

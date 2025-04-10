@@ -1,0 +1,55 @@
+<!-- HTML file for gallery webpage --> 
+
+<!DOCTYPE html>
+<html>
+<head name="head" id="head">
+    <link rel="stylesheet" href="css/gallery.css" name="stylesheet"
+        id="stylesheet"> 
+</head>
+<body>
+    <header name="header" id="header">
+        <h1 name="headingOne" id="headingOne">
+            <img src="tv.png" name="logo" id="logoImage" alt=
+                "Movie TV Logo" width="70" height="50" > <br>
+            Movie Company <br>
+        </h1>
+        <div name="headerButtons" id="headerButtons" 
+            style="display: flex;justify-content: space-between; 
+            align-items: center; width: 100%;">
+            <form name="navigationForm" id="navigationForm" style=
+            "display:inline-block;">
+                <input type="submit" id="submitHomePage" value="Home"
+                    formaction="home.html" name="submitHomePage" />
+                <input type="submit" id="submitLoginPage" value=
+                    "Login" formaction="login.html" 
+                    name="submitLoginPage" />
+                <input type="submit" id="submitGalleryPage" value=
+                    "Gallery" formaction="gallery.html" name=
+                    "submitGalleryPage"/>
+            </form> 
+            <button name="logoutButton" id="logoutButton" 
+                style="display:none;">Logout</button>
+        </div>
+        <div id="searchBarContainer" style="text-align:center; margin: 20px;">
+            <input type="text" id="searchInput" placeholder="Search for a movie..." style="padding: 8px; width: 50%;">
+            <button id="searchButton" style="padding: 8px;">Search</button>
+        </div>
+        
+    <br><br>
+
+    <div id="galleryContainer" class="gallery-container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+        <!-- Images will be injected here -->
+      </div>
+      
+
+    <footer name="galleryFooter" id="galleryFooter">
+        <br><br>
+        © 2025 Movie Company <br>
+        <a href="mailto:moviecompany@example.com">
+            moviecompany@example.com</a>
+    </footer>
+    
+    <script name="galleryJS" src="/javaScript/gallery.js"
+        id="galleryJS"></script>
+</body>
+</html>

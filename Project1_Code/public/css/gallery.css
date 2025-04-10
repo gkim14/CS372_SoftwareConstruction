@@ -1,0 +1,77 @@
+/* CSS file for gallery.html style */
+
+* {
+box-sizing: border-box;
+}
+
+.column {
+float: left;
+width: 25%;
+padding: 5px;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+content: "";
+clear: both;
+display: table;
+}
+
+
+/* Tooltip text */
+.column .tooltiptext {
+visibility: hidden;
+width: 120px;
+background-color: black;
+color: #fff;
+text-align: center;
+padding: 5px;
+border-radius: 6px;
+
+z-index: auto;
+top: 100%;
+left: 50%;
+}
+/* The modal background */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+}
+
+/* Modal content (the actual window) */
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%; /* Can be adjusted */
+    text-align: center;
+}
+
+/* Close button */
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.column:hover .tooltiptext {
+visibility: visible;
+}

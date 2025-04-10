@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, 
+                                    initial-scale=1.0">
+    <title>Movie Page</title>
+
+</head>
+<body>
+    <header name="header" id="header">
+        <h1 name="headingOne" id="headingOne">
+            <img src="tv.png" name="logo" id="logoImage" alt=
+                "Movie TV Logo" width="70" height="50" > <br>
+            Movie Company <br>
+        </h1>
+        <form name="navigationForm" id="navigationForm" style=
+            "display:inline-block;">
+            <input type="submit" id="submitHomePage" value="Home" 
+                formaction="home.html" name="submitHomePage" />
+            <input type="submit" id="submitLoginPage" value="Login" 
+                formaction="login.html" name="submitLoginPage" />
+            <input type="submit" id="submitGalleryPage" value=
+                "Gallery" formaction="gallery.html" name=
+                "submitGalleryPage"/>
+        </form>  
+        <br><br>
+    </header>
+
+    <div id="movieDetailsContainer" style="display: flex;  
+            flex-direction: column;"></div>
+    <iframe id="movieIframe" style="display:none; width: 80%; 
+        height: 600px;align-items: center;" frameborder="0" allowfullscreen></iframe>
+
+    <br><br>
+
+    <div id="movieInteraction">
+        <button id="likeButton">Like</button>
+        <button id="dislikeButton">Dislike</button>
+    </div>
+
+
+    <footer>
+        <br><br>
+        © 2025 Movie Company <br>
+        <a href="mailto:moviecompany@example.com">
+                        moviecompany@example.com</a>
+    </footer>
+
+    <script name="movieJS" src="/javaScript/movie.js"
+        id="movieJS"></script>
+
+</body>
+</html>
