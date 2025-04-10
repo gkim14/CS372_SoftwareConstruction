@@ -78,10 +78,10 @@ function loadMovies() {
             // Loop through the sorted movies and display them
             movies.forEach(movie => {
                 const movieDiv = document.createElement('div');
-                movieDiv.className = 'movie-tile';
+                movieDiv.className = 'movieTile';
                 movieDiv.style.width = '250px';
                 movieDiv.style.textAlign = 'center';
-                movieDiv.setAttribute('data-title', movie.title.toLowerCase()); // Store title for search comparison
+                movieDiv.setAttribute('dataTitle', movie.title.toLowerCase()); // Store title for search comparison
 
                 const img = document.createElement('img');
                 img.src = movie.imagePath;
@@ -192,10 +192,10 @@ function checkLogoutStatus(){
 
 function searchGallery() {
     const input = document.getElementById("searchInput").value.toLowerCase();
-    const movieTiles = document.querySelectorAll('.movie-tile');
+    const movieTiles = document.querySelectorAll('.movieTile');
 
     movieTiles.forEach(movieTile => {
-        const movieTitle = movieTile.getAttribute('data-title');
+        const movieTitle = movieTile.getAttribute('dataTitle');
         
         if (movieTitle && movieTitle.includes(input)) {
             movieTile.style.display = "block"; // Show the movie

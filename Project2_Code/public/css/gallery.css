@@ -44,16 +44,6 @@ left: 50%;
     background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
 }
 
-/* Modal content (the actual window) */
-.modal-content {
-    background-color: white;
-    margin: 15% auto;
-    padding: 20px;
-    border-radius: 10px;
-    width: 80%; /* Can be adjusted */
-    text-align: center;
-}
-
 /* Close button */
 .close {
     color: #aaa;
