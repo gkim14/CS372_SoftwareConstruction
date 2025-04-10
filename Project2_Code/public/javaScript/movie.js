@@ -50,11 +50,13 @@ function loadMovieDetails() {
             // Event listener for the like button
             likeButton.addEventListener('click', () => {
                 updateLikeDislike(movie._id, 'like');
+                alert("You Liked this video.");
             });
 
             // Event listener for the dislike button
             dislikeButton.addEventListener('click', () => {
                 updateLikeDislike(movie._id, 'dislike');
+                alert("You Disiked this video.");
             });
         })
         .catch(error => {

@@ -27,8 +27,27 @@
                     "Gallery" formaction="gallery.html" name=
                     "submitGalleryPage"/>
             </form> 
-            <button id="roleChange" name="roleChange">Change Role
-            </button>
+            <div id="role-container" name="role-container" 
+                style="display: flex; align-items: center;">
+                <label for="roleChange" id="roleLabel" 
+                    name="roleLabel" style="margin-right: 10px;">
+                    Change Role: </label>
+                <select id="roleChange" name="roleChange">
+                   <option value="" disabled selected 
+                        id="defaultOption" name="defaultOption">
+                        Select a role</option>   
+                    <option value="viewer" id="viewerOption" 
+                        name="viewerOption">Viewer </option>
+                    <option value="contentEditor" 
+                        id="contentEditorOption" 
+                        name="contentEditorOption">
+                        Content Editor </option>
+                    <option value="marketingManager" 
+                            id="marketingManagerOption" 
+                            name="marketingManagerOption">
+                        Marketing Manager</option>
+                </select>
+            </div>
             <button name="logoutButton" id="logoutButton" 
                 style="display:none;">Logout</button>
         </div>
