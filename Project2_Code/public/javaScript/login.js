@@ -5,6 +5,12 @@
 //        toggling password visibility, the login form submission,
 //        and redirecting if logged in.
 
+let isCreating = false;
+
+function createAccount() {
+    isCreating = true;
+}
+
 
 // Function to show/hide password on login page
 //    Input Parameters: 
@@ -105,27 +111,53 @@ function submitLoginForm(event){
     formData.append("username", username);
     formData.append("password", password);
 
-    fetch('/login', {
-        method: 'POST',
-        body: new URLSearchParams(new FormData(loginForm)) 
-    })
-    .then(response => {
-        return response.json(); 
-    })
-    .then(data => {
-        if (data.success) {
-            window.location.href = 'gallery.html'; 
-            alert(data.message);  // Show success message
-        } else {
-            alert(data.message);  // Show error message
-        }
-        //clears password input
-        password.value = '';  
-    })
-    .catch(error => {
-        console.error("Error during login:", error);
-        alert("An error occurred, please try again.");
-    });
+    if(isCreating){
+        isCreating = false;
+        fetch('/create', {
+            method: 'POST',
+            body: new URLSearchParams(new FormData(loginForm)) 
+        })
+        .then(response => {
+            return response.json(); 
+        })
+        .then(data => {
+            if (data.success) {
+                window.location.href = 'login.html'; 
+                alert(data.message);  // Show success message
+            } else {
+                alert(data.message);  // Show error message
+            }
+            //clears input
+            username.value = '';
+            password.value = '';  
+        })
+        .catch(error => {
+            console.error("Error creating account:", error);
+            alert("An error occurred, please try again.");
+        });
+    }else{
+        fetch('/login', {
+            method: 'POST',
+            body: new URLSearchParams(new FormData(loginForm)) 
+        })
+        .then(response => {
+            return response.json(); 
+        })
+        .then(data => {
+            if (data.success) {
+                window.location.href = 'gallery.html'; 
+                alert(data.message);  // Show success message
+            } else {
+                alert(data.message);  // Show error message
+            }
+            //clears password input
+            password.value = '';  
+        })
+        .catch(error => {
+            console.error("Error during login:", error);
+            alert("An error occurred, please try again.");
+        });
+    }
 }
 
 // Function to check if the user is logged in

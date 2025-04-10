@@ -19,6 +19,7 @@ const port = 3000;
 const loginAttempt = 3;
 let remainingAttempt = loginAttempt;
 let isLoggedIn = false;
+let currentUser = "";
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -69,6 +70,41 @@ app.post('/login', (req, res) => {
   }
 });
 
+app.post('/create', async (req, res) => {
+  const { username, password } = req.body;
+  const hashPassword = createHash('sha256').update(password)
+  .digest('hex');
+
+  try {
+    await client.connect();
+    const mydatabase = client.db(dbName);
+    const mycollection = mydatabase.collection(accColName);
+
+    const existingUser = 
+      await mycollection.findOne({ "username": username });
+
+    if (existingUser) {
+      res.json({ success: false, message: `Account with username `+
+          `${username} already exists.`});
+    } else {
+      await mycollection.insertOne({
+        "username": username,
+        "password": hashPassword,
+        "role": "Viewer",
+        "likedMovies": [],
+        "dislikedMovies": []
+      })
+      res.json({ success: true, message: "Account created!"});
+    }
+  } catch (error) {
+      console.error("Error creating account", error);
+      res.status(500).json({ success: false, message: 
+                              'Failed to check account' });
+  }finally {
+    await client.close();
+  }
+});
+
 // Endpoint to check if user is logged in
 //    Input Parameters: 
 //        req: object containing user data
@@ -104,6 +140,7 @@ app.get('/checkLogin', (req, res) => {
 app.post('/logout', (req, res) => {
   // Reset login status or session here
   isLoggedIn = false;
+  currentUser = "";
   console.log("Logout successful.");
   res.json({ success: true, message: "Logged out successfully." });
 });
@@ -161,23 +198,69 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
       const oId = new ObjectId(movieId);
       const movie = await database.collection(movColName).
                                     findOne({ _id: oId });
+      const mycollection = database.collection(accColName);
 
       if (!movie) {
           return res.status(404).json({ success: false, message: 
                                     'Movie not found.' });
       }
 
+      const isLiked = await mycollection.findOne({ username: 
+        currentUser, likedMovies: movie.title });
+      const isDisliked = await mycollection.findOne({ username: 
+        currentUser, dislikedMovies: movie.title });
+
       // Increment the likes or dislikes count
       if (type === 'like') {
-          await database.collection(movColName).updateOne(
+          if(!isLiked && !isDisliked) {
+            await database.collection(movColName).updateOne(
               { _id: oId },
               { $inc: { likes: 1 } } // Increment the likes count by 1
-          );
-      } else if (type === 'dislike') {
-          await database.collection(movColName).updateOne(
+            );
+            await mycollection.updateOne(
+              { username: currentUser},
+              { $push: { likedMovies: movie.title } }
+            );
+          }
+          else if(isDisliked){
+            await database.collection(movColName).updateOne(
               { _id: oId },
-              { $inc: { dislikes: 1 } } // Increment the dislikes count by 1
-          );
+              { $inc: { likes: 1, dislikes:-1 } } // Increment the likes count by 1
+            );
+            await mycollection.updateOne(
+              { username: currentUser },
+              { $push: {likedMovies: movie.title } },
+            );
+            await mycollection.updateOne(
+              { username: currentUser },
+              { $pull: { dislikedMovies: movie.title }}
+            );
+          }
+      } else if (type === 'dislike') {
+          if(!isLiked && !isDisliked) {
+            await database.collection(movColName).updateOne(
+              { _id: oId },
+              { $inc: { dislikes: 1 } } // Increment the likes count by 1
+            );
+            await mycollection.updateOne(
+              { username: currentUser},
+              { $push: { dislikedMovies: movie.title } }
+            );
+          }
+          else if(isLiked){
+            await database.collection(movColName).updateOne(
+              { _id: oId },
+              { $inc: { likes: -1, dislikes:1 } } // Increment the likes count by 1
+            );
+            await mycollection.updateOne(
+              { username: currentUser },
+              { $pull: {likedMovies: movie.title } }
+            );
+            await mycollection.updateOne(
+              { username: currentUser },
+              { $push: { dislikedMovies: movie.title }}
+            );
+          }
       }
 
       // Fetch the updated movie to return the new count
@@ -221,6 +304,7 @@ async function checkAccountInfo(myname, mypass) {
       if (existingUser.password === mypass) {
         console.log("Login successful.");
         isLoggedIn = true;
+        currentUser = myname;
         return { success: true, message: "Login successful!\n"+
           "Redirecting to Gallery..." };
       } else {
