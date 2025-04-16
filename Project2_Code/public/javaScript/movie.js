@@ -47,6 +47,19 @@ function loadMovieDetails() {
             const likeButton = document.getElementById('likeButton');
             const dislikeButton = document.getElementById('dislikeButton');
 
+            const likeCount = document.getElementById('totalLikes');
+            const dislikeCount = document.getElementById('totalDislikes');
+
+            let role = localStorage.getItem('selectedRole');
+            if(role === "Marketing Manager") {
+                likeCount.textContent = "Likes: " + movie.likes;
+                dislikeCount.textContent = "Dislikes: " + movie.dislikes;
+            }
+            else {
+                likeCount.textContent = "";
+                dislikeCount.textContent = "";
+            }
+
             // Event listener for the like button
             likeButton.addEventListener('click', () => {
                 updateLikeDislike(movie._id, 'like');
