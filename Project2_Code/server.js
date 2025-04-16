@@ -183,11 +183,27 @@ app.post('/logout', (req, res) => {
   res.json({ success: true, message: "Logged out successfully." });
 });
 
-app.get('/user/likedMovies', async (req, res) => {
-  if (!currentUser) {
-    return res.status(401).json({ success: false, message: "Not logged in" });
-  }
+app.post('/removeMovies', async (req, res) => {
+  const { movieId } = req.body;
+  try {
+    const oId = new ObjectId(movieId);
+    const mycollection = db.collection(movColName);
+    const result = await mycollection.deleteOne({ _id: oId });
 
+    if (result.deletedCount === 1) {
+      res.json({ success: true, message: "Movie removed successfully." });
+    } else {
+      res.status(404).json({ success: false, message: "Movie not found." });
+    }
+  }
+  catch (error) {
+    console.error("Error removing movie:", error);
+    res.status(500).json({ success: false, message: "Server error while removing movie." });
+
+  }
+});
+
+app.get('/user/likedMovies', async (req, res) => {
   try {
     const users = db.collection(accColName);
     const movies = db.collection(movColName);

@@ -53,6 +53,7 @@ function logout() {
         .then(data => {
             if (data.success) {
                 alert(data.message);
+                localStorage.removeItem('selectedRole');
                 // Redirect to login page
                 window.location.href = 'login.html'; 
             } else {
@@ -65,7 +66,7 @@ function logout() {
 }
 
 function setRoleDropdown() {
-    fetch('/user/role')
+    return fetch('/user/role')
         .then(response => response.json())
         .then(data => {
             if (data.success && data.role) {
@@ -111,6 +112,26 @@ function updateRoleOnServer(role) {
     })
     .catch(error => {
         console.error("Error sending role to the server:", error);
+    });
+}
+
+function removeMovie(movieId, movieElement) {
+    fetch(`/removeMovies`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ movieId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Remove the movie from the DOM
+            if (movieElement && movieElement.parentElement) {
+                movieElement.parentElement.removeChild(movieElement);
+            }
+        }
+    })
+    .catch(error => {
+        console.error("Error removing movie:", error);
     });
 }
 
@@ -342,8 +363,10 @@ function searchGallery() {
 document.addEventListener("DOMContentLoaded", () => {
     checkLogoutStatus();
     loadLikedMovies() 
-    loadMovies();
-    setRoleDropdown();
+
+    setRoleDropdown().then(() => {
+        loadMovies();  
+    });
 
     const dropdown = document.getElementById('roleChange');
 
