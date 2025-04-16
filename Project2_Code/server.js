@@ -213,6 +213,38 @@ app.post('/addMovie', async (req, res) => {
   }
 });
 
+app.post('/editMovie/:id', async (req, res) => {
+  const { title, videoUrl, imagePath, description, genre } = 
+    req.body;
+  const movieId = req.params.id;
+  try {
+    const oId = new ObjectId(movieId);
+    const mycollection = db.collection(movColName);
+    const result = await mycollection.findOne({ _id: oId });
+
+    if (result) {
+      if (title) result.title = title;
+      if (videoUrl) result.videoUrl = videoUrl;
+      if (imagePath) result.imagePath = imagePath;
+      if (description) result.description = description;
+      if (genre) result.genre = genre;
+      
+      await mycollection.replaceOne({ _id: oId }, result);
+
+      res.json({ success: true, message: 
+          "Movie edited successfully." });
+    } else {
+      res.status(404).json({ success: false, message: 
+          "Movie not found." });
+    }
+  }
+  catch (error) {
+    console.error("Error editing movie:", error);
+    res.status(500).json({ success: false, message: 
+        "Server error while editing movie." });
+  }
+});
+
 app.post('/removeMovies', async (req, res) => {
   const { movieId } = req.body;
   try {
