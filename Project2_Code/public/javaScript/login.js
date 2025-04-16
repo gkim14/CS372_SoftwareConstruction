@@ -195,6 +195,8 @@ function checkLoginStatus() {
         });
 }
 
-document.addEventListener("DOMContentLoaded", checkLoginStatus);
-document.getElementById('loginForm')
-    .addEventListener('submit', submitLoginForm);
+document.addEventListener("DOMContentLoaded", () => {
+    checkLoginStatus();
+    document.getElementById('loginForm')
+        .addEventListener('submit', submitLoginForm);
+});
