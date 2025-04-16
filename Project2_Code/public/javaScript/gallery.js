@@ -166,7 +166,7 @@ function loadMovies() {
             // Loop through movies and render them
             movies.forEach(movie => {
                 const movieDiv = createMovieTile(movie);
-                // If Content Editor, add a Remove button
+               
                 if (currentRole === "Content Editor") {
                     const removeBtn = document.createElement("button");
                     removeBtn.textContent = "Remove";
@@ -177,10 +177,21 @@ function loadMovies() {
                         }
                     });
                     movieDiv.appendChild(removeBtn);
+
+                    const editBtn = document.createElement("button");
+                    editBtn.textContent = "Edit";
+                    editBtn.style.marginTop = "10px";
+                    editBtn.style.marginLeft = "10px"; 
+                    editBtn.addEventListener("click", () => {
+                        window.location.href = 
+                            `editMovie.html?id=${movie._id}`;
+                    });
+                    movieDiv.appendChild(editBtn);
                 }
                 container.appendChild(movieDiv);
 
-                setupMovieTileInteractions(movie, movieDiv, previewPopup);
+                setupMovieTileInteractions(movie, movieDiv, 
+                    previewPopup);
             });
         })
         .catch(error => {
