@@ -104,12 +104,6 @@ function submitLoginForm(event){
 
     let username = document.getElementById("textUserName");
     let password = document.getElementById("passwordUserPassword");
-    
-    // Create an object for form data
-    const formData = new FormData();
-
-    formData.append("username", username);
-    formData.append("password", password);
 
     if(isCreating){
         isCreating = false;
