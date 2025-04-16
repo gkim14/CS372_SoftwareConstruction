@@ -69,13 +69,20 @@ function setRoleDropdown() {
         .then(response => response.json())
         .then(data => {
             if (data.success && data.role) {
+                const savedRole = localStorage.getItem('selectedRole');
+                currentRole = savedRole || data.role;
+
                 const roles = data.list;
                 const dropdown = document.getElementById('roleChange');
+                dropdown.innerHTML = '';
 
                 roles.forEach(role => {
                     const option = document.createElement('option');
                     option.value = role;
                     option.textContent = role;
+                    if (role === currentRole) {
+                        option.selected = true;
+                    }
                     dropdown.appendChild(option);
                 });
 
@@ -88,7 +95,7 @@ function setRoleDropdown() {
 
 // send the selected role to the server
 function updateRoleOnServer(role) {
-    fetch('/updateRole', {
+    return fetch('/updateRole', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -99,6 +106,7 @@ function updateRoleOnServer(role) {
     .then(data => {
         if (data.success) {
             alert(data.message);
+            localStorage.setItem('selectedRole', role);
         }
     })
     .catch(error => {
@@ -113,6 +121,19 @@ function loadMovies() {
             const container = document.getElementById('galleryContainer');
             container.innerHTML = "";
 
+            const userRole = localStorage.getItem('selectedRole');
+            if (userRole === "Content Editor") {
+                const addButton = document.createElement('button');
+                addButton.textContent = "Add Movie";
+                addButton.id = "addMovieButton";
+                addButton.style.marginBottom = "15px";
+                addButton.addEventListener("click", () => {
+                    window.location.href = "addMovie.html";
+                });
+
+                container.parentElement.insertBefore(addButton, container);
+            }
+
             // Sort movies alphabetically
             movies.sort((a, b) => a.title.localeCompare(b.title));
 
@@ -123,6 +144,18 @@ function loadMovies() {
             // Loop through movies and render them
             movies.forEach(movie => {
                 const movieDiv = createMovieTile(movie);
+                // If Content Editor, add a Remove button
+                if (currentRole === "Content Editor") {
+                    const removeBtn = document.createElement("button");
+                    removeBtn.textContent = "Remove";
+                    removeBtn.style.marginTop = "10px";
+                    removeBtn.addEventListener("click", () => {
+                        if (confirm(`Remove "${movie.title}"?`)) {
+                            removeMovie(movie._id, movieDiv);
+                        }
+                    });
+                    movieDiv.appendChild(removeBtn);
+                }
                 container.appendChild(movieDiv);
 
                 setupMovieTileInteractions(movie, movieDiv, previewPopup);
@@ -156,8 +189,8 @@ function setPopupStyle(previewPopup) {
     previewPopup.style.borderRadius = '10px';
     previewPopup.style.overflow = 'hidden';
     previewPopup.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
-    previewPopup.style.bottom = '10px';  // Set distance from the bottom of the viewport
-    previewPopup.style.right = '10px';   // Set distance from the right of the viewport
+    previewPopup.style.bottom = '10px';  
+    previewPopup.style.right = '10px';   
     return previewPopup;
 }
 
@@ -316,7 +349,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     dropdown.addEventListener('change', function () {
         const selectedValue = dropdown.value;
-        updateRoleOnServer(selectedValue);
+        updateRoleOnServer(selectedValue)
+        .then(() => {
+            window.location.reload();
+        });
     });
 
     const searchButton = document.getElementById("searchButton");
@@ -325,7 +361,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (searchButton && searchInput) {
         searchButton.addEventListener("click", searchGallery);
 
-        // Optional: allow pressing "Enter" to search
         searchInput.addEventListener("keyup", event => {
             if (event.key === "Enter") {
                 searchGallery();
