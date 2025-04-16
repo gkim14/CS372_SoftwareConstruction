@@ -198,7 +198,8 @@ app.post('/addMovie', async (req, res) => {
         "description": description,
         "likes": 0,
         "dislikes": 0,
-        "genre": genre
+        "genre": genre,
+        "comment": ""
       })
       res.json({ success: true, message: "Move added!"});
       
@@ -242,6 +243,31 @@ app.post('/editMovie/:id', async (req, res) => {
     console.error("Error editing movie:", error);
     res.status(500).json({ success: false, message: 
         "Server error while editing movie." });
+  }
+});
+
+app.post('/comment', async (req, res) => {
+  const { movieId, comment } = req.body;
+  try {
+    const oId = new ObjectId(movieId);
+    const mycollection = db.collection(movColName);
+    const result = await mycollection.findOne({ _id: oId });
+    
+    if(comment === "" || !comment) {
+      res.json({ success: false, message: 
+        "Enter a comment." });
+    }
+    else if(result) {
+      result.comment = comment;
+    }
+
+    await mycollection.replaceOne({ _id: oId }, result);
+    res.json({ success: true, message: "Comment added." });
+
+  } catch(error) {
+    console.error("Error commenting:", error);
+    res.status(500).json({ success: false, message: 
+        "Server error while commenting." });
   }
 });
 

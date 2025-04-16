@@ -136,23 +136,37 @@ function removeMovie(movieId, movieElement) {
     });
 }
 
+function editComment(movieId, comment) {
+    fetch(`/comment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ movieId, comment })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+        }
+        else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error("Error removing movie:", error);
+    });
+}
+
 function loadMovies() {
     fetch('/movies')
         .then(response => response.json())
         .then(movies => {
-            const container = document.getElementById('galleryContainer');
+            const container = document.
+                getElementById('galleryContainer');
             container.innerHTML = "";
 
             const userRole = localStorage.getItem('selectedRole');
             if (userRole === "Content Editor") {
-                const addButton = document.createElement('button');
-                addButton.textContent = "Add Movie";
-                addButton.id = "addMovieButton";
-                addButton.style.marginBottom = "15px";
-                addButton.addEventListener("click", () => {
-                    window.location.href = "addMovie.html";
-                });
-
+                const addButton = createAddBtn();
                 container.parentElement.insertBefore(addButton, container);
             }
 
@@ -167,10 +181,8 @@ function loadMovies() {
             movies.forEach(movie => {
                 const movieDiv = createMovieTile(movie);
                
-                if (currentRole === "Content Editor") {
-                    const removeBtn = document.createElement("button");
-                    removeBtn.textContent = "Remove";
-                    removeBtn.style.marginTop = "10px";
+                if (userRole === "Content Editor") {
+                    const removeBtn = createRemoveBtn();
                     removeBtn.addEventListener("click", () => {
                         if (confirm(`Remove "${movie.title}"?`)) {
                             removeMovie(movie._id, movieDiv);
@@ -178,15 +190,20 @@ function loadMovies() {
                     });
                     movieDiv.appendChild(removeBtn);
 
-                    const editBtn = document.createElement("button");
-                    editBtn.textContent = "Edit";
-                    editBtn.style.marginTop = "10px";
-                    editBtn.style.marginLeft = "10px"; 
-                    editBtn.addEventListener("click", () => {
-                        window.location.href = 
-                            `editMovie.html?id=${movie._id}`;
-                    });
+                    const editBtn = createEditBtn(movie._id);
                     movieDiv.appendChild(editBtn);
+                }
+                else if(userRole === "Marketing Manager") {
+                    const commentBox = createCommentBox();
+
+                    const submitBox = createSubmitBox();
+                    submitBox.addEventListener("click", () => {
+                        editComment(movie._id, commentBox.value);
+                        commentBox.value = "";
+                    });
+                    
+                    movieDiv.appendChild(commentBox);
+                    movieDiv.appendChild(submitBox);
                 }
                 container.appendChild(movieDiv);
 
@@ -197,6 +214,56 @@ function loadMovies() {
         .catch(error => {
             console.error("Error loading movies:", error);
         });
+}
+
+function createSubmitBox() {
+    let submitBox = document.createElement("INPUT");
+    submitBox.setAttribute("type", "submit");
+    submitBox.textContent = "Submit";
+    submitBox.style.marginLeft = "10px";
+    submitBox.style.marginTop = "10px";
+
+    return submitBox;
+}
+
+function createRemoveBtn() {
+    let removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remove";
+    removeBtn.style.marginTop = "10px";
+
+    return removeBtn;
+}
+
+function createCommentBox() {
+    let commentBox = document.createElement("INPUT");
+    commentBox.setAttribute("type", "text");
+    commentBox.style.marginTop = "10px";
+    return commentBox;
+}
+
+function createEditBtn(id) {
+    let editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
+    editBtn.style.marginTop = "10px";
+    editBtn.style.marginLeft = "10px"; 
+    editBtn.addEventListener("click", () => {
+        window.location.href = 
+            `editMovie.html?id=${id}`;
+    });
+
+    return editBtn;
+}
+
+function createAddBtn() {
+    let addButton = document.createElement('button');
+    addButton.textContent = "Add Movie";
+    addButton.id = "addMovieButton";
+    addButton.style.marginBottom = "15px";
+    addButton.addEventListener("click", () => {
+        window.location.href = "addMovie.html";
+    });
+
+    return addButton;
 }
 
 function createPreviewPopup() {
