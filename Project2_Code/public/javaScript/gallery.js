@@ -70,8 +70,9 @@ function setRoleDropdown() {
         .then(response => response.json())
         .then(data => {
             if (data.success && data.role) {
-                const savedRole = localStorage.getItem('selectedRole');
-                currentRole = savedRole || data.role;
+                currentRole = data.role;
+                localStorage.setItem('selectedRole', currentRole);
+
 
                 const roles = data.list;
                 const dropdown = document.getElementById('roleChange');

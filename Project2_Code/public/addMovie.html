@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <header name="header" id="header">
+        <h1 name="headingOne" id="headingOne">
+            <img src="tv.png" name="logo" id="logoImage" alt=
+                "Movie TV Logo" width="70" height="50" > <br>
+            Movie Company <br>
+        </h1>
+        <form name="navigationForm" id="navigationForm" style=
+            "display:inline-block;">
+            <input type="submit" id="submitHomePage" value="Home" 
+                formaction="home.html" name="submitHomePage" />
+            <input type="submit" id="submitLoginPage" value="Login" 
+                formaction="login.html" name="submitLoginPage" />
+            <input type="submit" id="submitGalleryPage" value=
+                "Gallery" formaction="gallery.html" name=
+                "submitGalleryPage"/>
+        </form>  
+        
+    </header>
+    <br><br>
+    <div name="addFormDiv" id="addFormDiv" >
+        <form name="addButton" id="addForm" action="/login" 
+            method="POST">
+            Title:
+            <input name="title" id="textTitle" required type=
+            "text"><br><br>
+            Video URL:
+            <input type="text" name="videoUrl" id=
+                "textVideoUrl" required> <br><br>
+            Cover Image File Path: 
+            <input type="text" name="imagePath" id=
+                "textFilePath" required> <br><br>
+            Description:
+            <input type="text" name="description" id=
+                "textDescription" required> <br><br>
+            Genre:
+            <input type="text" name="genre" id=
+                "textGenre" required> <br><br>
+            <input type="submit" name="submitMovie" 
+                id="submitMovieInfo" value="Submit">
+        </form>
+    </div>
+
+    <footer name="addMovieFooter" id="addMovieFooter">
+        <br><br>
+        © 2025 Movie Company <br>
+        <a href="mailto:moviecompany@example.com">
+            moviecompany@example.com</a>
+    </footer>
+   
+    <script id="addJS" name="addJS" src="/javaScript/addButton.js">
+        </script>
+
+</body>
+</html>

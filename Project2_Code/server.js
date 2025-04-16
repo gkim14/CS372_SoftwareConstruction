@@ -183,6 +183,36 @@ app.post('/logout', (req, res) => {
   res.json({ success: true, message: "Logged out successfully." });
 });
 
+app.post('/addMovie', async (req, res) => {
+  const { title, videoUrl, imagePath, description, genre } = 
+    req.body;
+  try {
+    const mycollection = db.collection(movColName);
+  
+    if (title && videoUrl && imagePath && description && 
+        genre) {
+      await mycollection.insertOne({
+        "title": title,
+        "videoUrl": videoUrl,
+        "imagePath": imagePath,
+        "description": description,
+        "likes": 0,
+        "dislikes": 0,
+        "genre": genre
+      })
+      res.json({ success: true, message: "Move added!"});
+      
+    } else {
+      res.json({ success: false, message: 
+          "Please fill out all fields" });
+    }
+  } catch (error) {
+      console.error("Error adding movie:", error);
+      res.status(500).json({ success: false, message: 
+          "Server error while adding movie." });
+  }
+});
+
 app.post('/removeMovies', async (req, res) => {
   const { movieId } = req.body;
   try {
@@ -191,15 +221,17 @@ app.post('/removeMovies', async (req, res) => {
     const result = await mycollection.deleteOne({ _id: oId });
 
     if (result.deletedCount === 1) {
-      res.json({ success: true, message: "Movie removed successfully." });
+      res.json({ success: true, message: 
+          "Movie removed successfully." });
     } else {
-      res.status(404).json({ success: false, message: "Movie not found." });
+      res.status(404).json({ success: false, message: 
+          "Movie not found." });
     }
   }
   catch (error) {
     console.error("Error removing movie:", error);
-    res.status(500).json({ success: false, message: "Server error while removing movie." });
-
+    res.status(500).json({ success: false, message: 
+        "Server error while removing movie." });
   }
 });
 
