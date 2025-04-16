@@ -21,9 +21,15 @@ function loadMovieDetails() {
             const movieTitle = document.createElement('h2');
             movieTitle.textContent = movie.title;
 
+            // Create and display movie genre
+            const movieGenre = document.createElement('p');
+            movieGenre.textContent = "Genre: " 
+                + movie.genre;
+
             // Create and display movie description
             const movieDescription = document.createElement('p');
-            movieDescription.textContent = movie.description;
+            movieDescription.textContent = "Description: " 
+                + movie.description;
 
             // Get the iframe element
             const iframe = document.getElementById('movieIframe');
@@ -40,6 +46,7 @@ function loadMovieDetails() {
 
             // Append other elements to the container
             container.appendChild(movieTitle);
+            container.appendChild(movieGenre);
             container.appendChild(movieDescription);
             if(userRole === "Content Editor") {
                 const movieComment = document.createElement('p');
