@@ -305,7 +305,7 @@ app.get('/user/likedMovies', async (req, res) => {
 
     const likedMovieTitles = user.likedMovies;
     const likedMovies = await movies.find(
-      { title: { $in: likedMovieTitles } }).toArray();
+      { _id: { $in: likedMovieTitles } }).toArray();
 
     res.json(likedMovies);
   } catch (err) {
@@ -365,9 +365,9 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
       }
 
       const isLiked = await mycollection.findOne({ username: 
-        currentUser, likedMovies: movie.title });
+        currentUser, likedMovies: movie._id });
       const isDisliked = await mycollection.findOne({ username: 
-        currentUser, dislikedMovies: movie.title });
+        currentUser, dislikedMovies: movie._id });
 
       // Increment the likes or dislikes count
       if (type === 'like') {
@@ -378,7 +378,7 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
             );
             await mycollection.updateOne(
               { username: currentUser},
-              { $push: { likedMovies: movie.title } }
+              { $push: { likedMovies: movie._id } }
             );
           }
           else if(isDisliked){
@@ -388,11 +388,11 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
             );
             await mycollection.updateOne(
               { username: currentUser },
-              { $push: {likedMovies: movie.title } },
+              { $push: {likedMovies: movie._id } },
             );
             await mycollection.updateOne(
               { username: currentUser },
-              { $pull: { dislikedMovies: movie.title }}
+              { $pull: { dislikedMovies: movie._id }}
             );
           }
       } else if (type === 'dislike') {
@@ -403,7 +403,7 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
             );
             await mycollection.updateOne(
               { username: currentUser},
-              { $push: { dislikedMovies: movie.title } }
+              { $push: { dislikedMovies: movie._id } }
             );
           }
           else if(isLiked){
@@ -413,11 +413,11 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
             );
             await mycollection.updateOne(
               { username: currentUser },
-              { $pull: {likedMovies: movie.title } }
+              { $pull: {likedMovies: movie._id } }
             );
             await mycollection.updateOne(
               { username: currentUser },
-              { $push: { dislikedMovies: movie.title }}
+              { $push: { dislikedMovies: movie._id }}
             );
           }
       }
@@ -460,6 +460,7 @@ async function checkAccountInfo(myname, mypass) {
         console.log("Login successful.");
         isLoggedIn = true;
         currentUser = myname;
+        remainingAttempt = loginAttempt;
         return { success: true, message: "Login successful!\n"+
           "Redirecting to Gallery..." };
       } else {

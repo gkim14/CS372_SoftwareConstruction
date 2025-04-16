@@ -126,9 +126,7 @@ function removeMovie(movieId, movieElement) {
     .then(data => {
         if (data.success) {
             // Remove the movie from the DOM
-            if (movieElement && movieElement.parentElement) {
-                movieElement.parentElement.removeChild(movieElement);
-            }
+            window.location.reload();
         }
     })
     .catch(error => {
