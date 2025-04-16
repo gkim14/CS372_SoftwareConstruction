@@ -64,6 +64,48 @@ function logout() {
         });
 }
 
+function setRoleDropdown() {
+    fetch('/user/role')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.role) {
+                const roles = data.list;
+                const dropdown = document.getElementById('roleChange');
+
+                roles.forEach(role => {
+                    const option = document.createElement('option');
+                    option.value = role;
+                    option.textContent = role;
+                    dropdown.appendChild(option);
+                });
+
+            }
+        })
+        .catch(err => {
+            console.error("Error fetching role:", err);
+        });
+}
+
+// send the selected role to the server
+function updateRoleOnServer(role) {
+    fetch('/updateRole', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ role: role }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error("Error sending role to the server:", error);
+    });
+}
+
 function loadMovies() {
     fetch('/movies')
         .then(response => response.json())
@@ -268,6 +310,14 @@ document.addEventListener("DOMContentLoaded", () => {
     checkLogoutStatus();
     loadLikedMovies() 
     loadMovies();
+    setRoleDropdown();
+
+    const dropdown = document.getElementById('roleChange');
+
+    dropdown.addEventListener('change', function () {
+        const selectedValue = dropdown.value;
+        updateRoleOnServer(selectedValue);
+    });
 
     const searchButton = document.getElementById("searchButton");
     const searchInput = document.getElementById("searchInput");

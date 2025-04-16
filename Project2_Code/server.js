@@ -20,6 +20,8 @@ const loginAttempt = 3;
 let remainingAttempt = loginAttempt;
 let isLoggedIn = false;
 let currentUser = "";
+let roles;
+let currentRole = "";
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -65,8 +67,9 @@ app.post('/login', (req, res) => {
     checkAccountInfo(username, hashPassword)
       .then((result) => {
         if (result.success) {
+          getRoles(username); 
           // Send success message
-          res.json({ success: true, message: result.message });  
+          res.json({ success: true, message: result.message }); 
         } else {
           // Send error message
           res.json({ success: false, message: result.message });  
@@ -81,6 +84,31 @@ app.post('/login', (req, res) => {
     res.json({ success: false, message: "Username and password are "+
       "required." });
   }
+});
+
+async function getRoles(username) {
+  try {
+    const mycollection = db.collection(accColName);
+    const user = await mycollection.findOne({ "username": username });
+    roles = await user.role;
+    currentRole = roles[0];
+  } finally {}
+}
+
+// get current user role
+app.get('/user/role', (req, res) => {
+  if (isLoggedIn && currentRole) {
+    res.json({ success: true, role: currentRole, list: roles });
+  } else {
+    res.status(401).json({ success: false, message: "Not logged in." });
+  }
+});
+
+app.post('/updateRole', (req, res) => {
+  const { role } = req.body;
+
+  currentRole = role;
+  res.json({ success: true, message: `Role updated to ${currentRole}` });
 });
 
 app.post('/create', async (req, res) => {
@@ -147,9 +175,10 @@ app.get('/checkLogin', (req, res) => {
 //        the login status or session. It sets the `isLoggedIn` 
 //        flag to false and sends a success message in the response.
 app.post('/logout', (req, res) => {
-  // Reset login status or session here
   isLoggedIn = false;
   currentUser = "";
+  currentRole = "";
+  roles = [];
   console.log("Logout successful.");
   res.json({ success: true, message: "Logged out successfully." });
 });
@@ -239,7 +268,7 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
           if(!isLiked && !isDisliked) {
             await db.collection(movColName).updateOne(
               { _id: oId },
-              { $inc: { likes: 1 } } // Increment the likes count by 1
+              { $inc: { likes: 1 } } 
             );
             await mycollection.updateOne(
               { username: currentUser},
@@ -249,7 +278,7 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
           else if(isDisliked){
             await db.collection(movColName).updateOne(
               { _id: oId },
-              { $inc: { likes: 1, dislikes:-1 } } // Increment the likes count by 1
+              { $inc: { likes: 1, dislikes:-1 } } 
             );
             await mycollection.updateOne(
               { username: currentUser },
@@ -264,7 +293,7 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
           if(!isLiked && !isDisliked) {
             await db.collection(movColName).updateOne(
               { _id: oId },
-              { $inc: { dislikes: 1 } } // Increment the likes count by 1
+              { $inc: { dislikes: 1 } } 
             );
             await mycollection.updateOne(
               { username: currentUser},
@@ -274,7 +303,7 @@ app.post('/movie/updateLikeDislike', async (req, res) => {
           else if(isLiked){
             await db.collection(movColName).updateOne(
               { _id: oId },
-              { $inc: { likes: -1, dislikes:1 } } // Increment the likes count by 1
+              { $inc: { likes: -1, dislikes:1 } } 
             );
             await mycollection.updateOne(
               { username: currentUser },
