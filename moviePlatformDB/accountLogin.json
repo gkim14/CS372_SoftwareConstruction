@@ -1,0 +1,42 @@
+[{
+  "_id": {
+    "$oid": "67f714c880a704a9a2bc4b2c"
+  },
+  "username": "Demo1@email.com",
+  "password": "05ff5874f9f5a23cea0bdf9a790d9b0c2f026f28cbb4e8f72ebebe8f5b7070e2",
+  "role": [
+    "Viewer"
+  ],
+  "likedMovies": [
+    "Movie A"
+  ],
+  "dislikedMovies": [
+    "Movie B"
+  ]
+},
+{
+  "_id": {
+    "$oid": "67ff0155566ae31e9faeb364"
+  },
+  "username": "Demo2@email.com",
+  "password": "05ff5874f9f5a23cea0bdf9a790d9b0c2f026f28cbb4e8f72ebebe8f5b7070e2",
+  "role": [
+    "Viewer",
+    "Marketing Manager"
+  ],
+  "likedMovies": [],
+  "dislikedMovies": []
+},
+{
+  "_id": {
+    "$oid": "67ff0c96566ae31e9faeb369"
+  },
+  "username": "Demo3@email.com",
+  "password": "05ff5874f9f5a23cea0bdf9a790d9b0c2f026f28cbb4e8f72ebebe8f5b7070e2",
+  "role": [
+    "Viewer",
+    "Content Editor"
+  ],
+  "likedMovies": [],
+  "dislikedMovies": []
+}]

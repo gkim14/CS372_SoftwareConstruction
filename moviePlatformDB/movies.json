@@ -1,0 +1,240 @@
+[{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b5d"
+  },
+  "title": "Movie A",
+  "videoUrl": "https://www.youtube.com/embed/VlADnPWxDl0",
+  "imagePath": "galleryImages/row-1-column-1.png",
+  "description": "This is a description for Movie A",
+  "likes": 1,
+  "dislikes": 0,
+  "genre": "Documentary"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b5e"
+  },
+  "title": "Movie B",
+  "videoUrl": "https://www.youtube.com/embed/kCoNgUeDIjU",
+  "imagePath": "galleryImages/row-1-column-2.png",
+  "description": "This is a description for Movie B",
+  "likes": 0,
+  "dislikes": 1,
+  "genre": "Documentary"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b5f"
+  },
+  "title": "Movie C",
+  "videoUrl": "https://www.youtube.com/embed/shqVp3YwRK8",
+  "imagePath": "galleryImages/row-1-column-3.png",
+  "description": "This is a description for Movie C",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Documentary"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b60"
+  },
+  "title": "Movie D",
+  "videoUrl": "https://www.youtube.com/embed/q8H1LDX_rFw",
+  "imagePath": "galleryImages/row-1-column-4.png",
+  "description": "This is a description for Movie D",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Documentary"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b61"
+  },
+  "title": "Movie E",
+  "videoUrl": "https://www.youtube.com/embed/r7JDXEdSsBg",
+  "imagePath": "galleryImages/row-2-column-1.png",
+  "description": "This is a description for Movie E",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Documentary"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b62"
+  },
+  "title": "Movie F",
+  "videoUrl": "https://www.youtube.com/embed/ERI2GFWeyEc",
+  "imagePath": "galleryImages/row-2-column-2.png",
+  "description": "This is a description for Movie F",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Action"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b63"
+  },
+  "title": "Movie G",
+  "videoUrl": "https://www.youtube.com/embed/VlADnPWxDl0",
+  "imagePath": "galleryImages/row-2-column-3.png",
+  "description": "This is a description for Movie G",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Action"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b64"
+  },
+  "title": "Movie H",
+  "videoUrl": "https://www.youtube.com/embed/kCoNgUeDIjU",
+  "imagePath": "galleryImages/row-2-column-4.png",
+  "description": "This is a description for Movie H",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Action"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b65"
+  },
+  "title": "Movie I",
+  "videoUrl": "https://www.youtube.com/embed/shqVp3YwRK8",
+  "imagePath": "galleryImages/row-3-column-1.png",
+  "description": "This is a description for Movie I",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Action"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b66"
+  },
+  "title": "Movie J",
+  "videoUrl": "https://www.youtube.com/embed/q8H1LDX_rFw",
+  "imagePath": "galleryImages/row-3-column-2.png",
+  "description": "This is a description for Movie J",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Action"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b67"
+  },
+  "title": "Movie K",
+  "videoUrl": "https://www.youtube.com/embed/r7JDXEdSsBg",
+  "imagePath": "galleryImages/row-3-column-3.png",
+  "description": "This is a description for Movie K",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Sci-Fi"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b68"
+  },
+  "title": "Movie L",
+  "videoUrl": "https://www.youtube.com/embed/ERI2GFWeyEc",
+  "imagePath": "galleryImages/row-3-column-4.png",
+  "description": "This is a description for Movie L",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Sci-Fi"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b69"
+  },
+  "title": "Movie M",
+  "videoUrl": "https://www.youtube.com/embed/VlADnPWxDl0",
+  "imagePath": "galleryImages/row-4-column-1.png",
+  "description": "This is a description for Movie M",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Sci-Fi"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b6a"
+  },
+  "title": "Movie N",
+  "videoUrl": "https://www.youtube.com/embed/kCoNgUeDIjU",
+  "imagePath": "galleryImages/row-4-column-2.png",
+  "description": "This is a description for Movie N",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Sci-Fi"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b6b"
+  },
+  "title": "Movie O",
+  "videoUrl": "https://www.youtube.com/embed/shqVp3YwRK8",
+  "imagePath": "galleryImages/row-4-column-3.png",
+  "description": "This is a description for Movie O",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Sci-Fi"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b6c"
+  },
+  "title": "Movie P",
+  "videoUrl": "https://www.youtube.com/embed/q8H1LDX_rFw",
+  "imagePath": "galleryImages/row-4-column-4.png",
+  "description": "This is a description for Movie P",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Comedy"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b6d"
+  },
+  "title": "Movie Q",
+  "videoUrl": "https://www.youtube.com/embed/r7JDXEdSsBg",
+  "imagePath": "galleryImages/row-5-column-1.png",
+  "description": "This is a description for Movie Q",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Comedy"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b6e"
+  },
+  "title": "Movie R",
+  "videoUrl": "https://www.youtube.com/embed/ERI2GFWeyEc",
+  "imagePath": "galleryImages/row-5-column-2.png",
+  "description": "This is a description for Movie R",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Comedy"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b6f"
+  },
+  "title": "Movie S",
+  "videoUrl": "https://www.youtube.com/embed/VlADnPWxDl0",
+  "imagePath": "galleryImages/row-5-column-3.png",
+  "description": "This is a description for Movie S",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Comedy"
+},
+{
+  "_id": {
+    "$oid": "67f7256880a704a9a2bc4b70"
+  },
+  "title": "Movie T",
+  "videoUrl": "https://www.youtube.com/embed/bSa48DRXKP4",
+  "imagePath": "galleryImages/row-5-column-4.png",
+  "description": "This is a description for Movie T",
+  "likes": 0,
+  "dislikes": 0,
+  "genre": "Comedy"
+}]
