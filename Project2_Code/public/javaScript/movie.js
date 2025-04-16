@@ -2,9 +2,9 @@
 function loadMovieDetails() {
     const urlParams = new URLSearchParams(window.location.search);
     const movieId = urlParams.get('id'); // Get movie ID from the URL
+    const userRole = localStorage.getItem('selectedRole');
 
     if (!movieId) {
-        // If there's no movie ID, show an error or redirect
         alert("Movie ID is missing.");
         window.location.href = 'gallery.html'; // Redirect to gallery
         return;
@@ -14,7 +14,8 @@ function loadMovieDetails() {
     fetch(`/movie?id=${movieId}`)
         .then(response => response.json())
         .then(movie => {
-            const container = document.getElementById('movieDetailsContainer');
+            const container = document
+                .getElementById('movieDetailsContainer');
 
             // Create and display movie title
             const movieTitle = document.createElement('h2');
@@ -27,33 +28,43 @@ function loadMovieDetails() {
             // Get the iframe element
             const iframe = document.getElementById('movieIframe');
 
-            // Create and display movie video if the video URL exists
             if (movie.videoUrl) {
                 // Set the iframe src to the movie's video URL
                 iframe.src = movie.videoUrl;
                 iframe.style.display = 'block'; // Show iframe
 
-                // Optionally set other iframe attributes like title
                 iframe.title = movie.title;
             } else {
-                iframe.style.display = 'none'; // Hide iframe if no video URL
+                iframe.style.display = 'none';
             }
 
             // Append other elements to the container
             container.appendChild(movieTitle);
             container.appendChild(movieDescription);
+            if(userRole === "Content Editor") {
+                const movieComment = document.createElement('p');
+                movieComment.textContent = "Marketing Manager Comment:\n"
+                    + movie.comment;
 
-            // Set up the like and dislike buttons to interact with the backend
-            const likeButton = document.getElementById('likeButton');
-            const dislikeButton = document.getElementById('dislikeButton');
+                container.appendChild(movieComment);
+            }
 
-            const likeCount = document.getElementById('totalLikes');
-            const dislikeCount = document.getElementById('totalDislikes');
+            // Set up the like and dislike buttons
+            const likeButton = document
+                .getElementById('likeButton');
+            const dislikeButton = document
+                .getElementById('dislikeButton');
+
+            const likeCount = document
+                .getElementById('totalLikes');
+            const dislikeCount = document
+                .getElementById('totalDislikes');
 
             let role = localStorage.getItem('selectedRole');
             if(role === "Marketing Manager") {
                 likeCount.textContent = "Likes: " + movie.likes;
-                dislikeCount.textContent = "Dislikes: " + movie.dislikes;
+                dislikeCount.textContent = "Dislikes: " 
+                    + movie.dislikes;
             }
             else {
                 likeCount.textContent = "";
@@ -75,7 +86,7 @@ function loadMovieDetails() {
         .catch(error => {
             console.error("Error loading movie details:", error);
             alert("Failed to load movie details.");
-            window.location.href = 'gallery.html'; // Redirect to gallery if there's an error
+            window.location.href = 'gallery.html'; 
         });
 }
 
