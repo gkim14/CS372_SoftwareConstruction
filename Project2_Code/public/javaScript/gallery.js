@@ -312,6 +312,8 @@ function createMovieTile(movie) {
     img.src = movie.imagePath;
     img.alt = movie.title;
     img.style.width = '100%';
+    img.style.height = '200px';
+    img.style.objectFit = 'cover'
     img.style.borderRadius = '10px';
     img.style.cursor = 'pointer';
 
