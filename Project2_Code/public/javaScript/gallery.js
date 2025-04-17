@@ -74,7 +74,8 @@ function setRoleDropdown() {
                 localStorage.setItem('selectedRole', currentRole);
 
                 const roles = data.list;
-                const dropdown = document.getElementById('roleChange');
+                const dropdown = document.getElementById(
+                    'roleChange');
                 dropdown.innerHTML = '';
 
                 roles.forEach(role => {
@@ -164,7 +165,8 @@ function loadMovies() {
             const userRole = localStorage.getItem('selectedRole');
             if (userRole === "Content Editor") {
                 const addButton = createAddBtn();
-                container.parentElement.insertBefore(addButton, container);
+                container.parentElement.insertBefore(
+                        addButton, container);
             }
 
             // Sort movies alphabetically
@@ -195,6 +197,12 @@ function loadMovies() {
 
                     const submitBox = createSubmitBox();
                     submitBox.addEventListener("click", () => {
+                        if (commentBox.value.trim() === "") {
+                            alert("Please enter a comment " 
+                                + "before submitting.");
+                            commentBox.value = "";
+                            return;
+                        }
                         editComment(movie._id, commentBox.value);
                         commentBox.value = "";
                     });
@@ -234,6 +242,7 @@ function createRemoveBtn() {
 function createCommentBox() {
     let commentBox = document.createElement("INPUT");
     commentBox.setAttribute("type", "text");
+    commentBox.setAttribute("required", "");
     commentBox.style.marginTop = "10px";
     return commentBox;
 }
@@ -350,7 +359,8 @@ function loadLikedMovies() {
     fetch('/user/likedMovies')
         .then(response => response.json())
         .then(movies => {
-            const likedBar = document.getElementById('likedMoviesBar');
+            const likedBar = document.getElementById(
+                'likedMoviesBar');
             likedBar.innerHTML = ""; // Clear old content
 
             if (movies.length === 0) {
@@ -368,7 +378,8 @@ function loadLikedMovies() {
                 const movieDiv = setLikedMovieStyle(movie);
 
                 likedBar.appendChild(movieDiv);
-                setupMovieTileInteractions(movie, movieDiv, previewPopup);
+                setupMovieTileInteractions(movie, movieDiv, 
+                    previewPopup);
             });
         })
         .catch(error => {
@@ -422,7 +433,8 @@ function checkLogoutStatus(){
 
 
 function searchGallery() {
-    const input = document.getElementById("searchInput").value.toLowerCase();
+    const input = document.getElementById(
+            "searchInput").value.toLowerCase();
     const movieTiles = document.querySelectorAll('.movieTile');
 
     movieTiles.forEach(movieTile => {
