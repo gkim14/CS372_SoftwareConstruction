@@ -66,13 +66,12 @@ function logout() {
 }
 
 function setRoleDropdown() {
-    return fetch('/user/role')
+    return fetch('/userRole')
         .then(response => response.json())
         .then(data => {
             if (data.success && data.role) {
                 currentRole = data.role;
                 localStorage.setItem('selectedRole', currentRole);
-
 
                 const roles = data.list;
                 const dropdown = document.getElementById('roleChange');

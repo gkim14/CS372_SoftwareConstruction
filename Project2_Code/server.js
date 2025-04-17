@@ -22,6 +22,8 @@ let isLoggedIn = false;
 let currentUser = "";
 let roles;
 let currentRole = "";
+const timeOut = 24 * 60 * 60 * 1000;
+let logoutTime;
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -96,7 +98,7 @@ async function getRoles(username) {
 }
 
 // get current user role
-app.get('/user/role', (req, res) => {
+app.get('/userRole', (req, res) => {
   if (isLoggedIn && currentRole) {
     res.json({ success: true, role: currentRole, list: roles });
   } else {
@@ -175,13 +177,18 @@ app.get('/checkLogin', (req, res) => {
 //        the login status or session. It sets the `isLoggedIn` 
 //        flag to false and sends a success message in the response.
 app.post('/logout', (req, res) => {
+  logout();
+  clearTimeout(logoutTime); // Resets the 24 hour logout time
+  console.log("Logout successful.");
+  res.json({ success: true, message: "Logged out successfully." });
+});
+
+function logout() {
   isLoggedIn = false;
   currentUser = "";
   currentRole = "";
   roles = [];
-  console.log("Logout successful.");
-  res.json({ success: true, message: "Logged out successfully." });
-});
+}
 
 app.post('/addMovie', async (req, res) => {
   const { title, videoUrl, imagePath, description, genre } = 
@@ -461,6 +468,7 @@ async function checkAccountInfo(myname, mypass) {
         isLoggedIn = true;
         currentUser = myname;
         remainingAttempt = loginAttempt;
+        logoutTime = setTimeout(logout, timeOut); // Starts 24h timer
         return { success: true, message: "Login successful!\n"+
           "Redirecting to Gallery..." };
       } else {
