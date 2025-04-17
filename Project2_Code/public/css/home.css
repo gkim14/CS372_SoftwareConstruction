@@ -12,3 +12,8 @@ margin: auto;
 }
 
 .mySlides {display: none;}
+
+* {
+    font-family: 'Barlow';
+}
+
