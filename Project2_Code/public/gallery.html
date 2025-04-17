@@ -11,9 +11,11 @@
         rel='stylesheet'>
 </head>
 <body>
-    <header name="header" id="header">
-        <h1 name="headingOne" id="headingOne"
-            style="font-family:'Zilla Slab';">
+    <header id="header"name="header" 
+        style="background-color: #1e5c8d; margin: 0;
+        padding: 0;">
+        <h1 id="headingOne" name="headingOne" 
+            style="font-family:'Zilla Slab'; color:#ffffff;">
             <img src="tv.png" name="logo" id="logoImage" alt=
                 "Movie TV Logo" width="70" height="50" > <br>
             Movie Company <br>
@@ -22,7 +24,7 @@
             style="display: flex;justify-content: space-between; 
             align-items: center; width: 100%;">
             <form name="navigationForm" id="navigationForm" style=
-            "display:inline-block;">
+            "display:inline-block; margin-left: 10px; padding: 10px;">
                 <input type="submit" id="submitHomePage" value="Home"
                     formaction="home.html" name="submitHomePage" />
                 <input type="submit" id="submitLoginPage" value=
@@ -35,13 +37,16 @@
             <div id="roleContainer" name="roleContainer" 
                 style="display: flex; align-items: center;">
                 <label for="roleChange" id="roleLabel" 
-                    name="roleLabel" style="margin-right: 10px;">
+                    name="roleLabel" style="margin-right: 10px; 
+                    color:#ffffff;">
                     Change Role: </label>
                 <select id="roleChange" name="roleChange"></select>
             </div>
             <button name="logoutButton" id="logoutButton" 
-                style="display:none;">Logout</button>
+                style="display:none; margin-right: 20px;">
+                Logout</button>
         </div>
+        <br>
     </header>
     <div id="searchBarContainer" name="searchBar" style=
         "text-align:center; margin: 20px;">
@@ -74,12 +79,17 @@
         <!-- Gallery Movies here -->
       </div>
       
-
-    <footer name="galleryFooter" id="galleryFooter">
+    <br><br>
+    <footer name="galleryFooter" id="galleryFooter"
+        style="background-color: #1e5c8d; margin: 0;padding: 0;">
         <br><br>
-        © 2025 Movie Company <br>
-        <a href="mailto:moviecompany@example.com">
+        <p name = "footerPara" id="footerPara" style="color:#ffffff">
+            © 2025 Movie Company 
+        </p>
+        <a href="mailto:moviecompany@example.com" 
+            style="color:#ffffff">
             moviecompany@example.com</a>
+        <br><br>
     </footer>
     
     <script name="galleryJS" src="/javaScript/gallery.js"

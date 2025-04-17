@@ -13,16 +13,19 @@
 
 </head>
 <body>
-    <header id="header"name="header">
+    <header id="header"name="header" 
+        style="background-color: #1e5c8d; margin: 0;
+        padding: 0;">
         <h1 id="headingOne" name="headingOne" 
-            style="font-family:'Zilla Slab';">
+            style="font-family:'Zilla Slab'; color:#ffffff;">
             <img src="tv.png" name="logo" id="logoImage" alt=
                 "Movie TV Logo" width="70" height="50" > <br>
             Movie Company <br>
         </h1>
         <div name="headerButtons" id="headerButtons" 
             style="display: flex;justify-content: space-between; 
-            align-items: center; width: 100%;">
+            align-items: center; width: 100%; margin-left: 10px; 
+            padding: 10px;">
             <form name="navigationForm" id="navigationForm" style=
             "display:inline-block;">
                 <input type="submit" id="submitHomePage" value="Home"
@@ -35,8 +38,10 @@
                     "submitGalleryPage"/>
             </form> 
             <button name="logoutButton" id="logoutButton" 
-                style="display:none;">Logout</button>
+                style="display:none; margin-right: 40px;">
+                Logout</button>
         </div>
+        <br>
     </header>
     <br><br>
     <div name="slideshowContainer" id="slideshowContainer" class="slideshow-container" 
@@ -85,11 +90,16 @@
         recommendations.
     </p>
 
-    <footer name="homeFooter" id="homeFooter">
+    <footer name="homeFooter" id="homeFooter" 
+        style="background-color: #1e5c8d; margin: 0;padding: 0;">
         <br><br>
-        © 2025 Movie Company <br>
-        <a href="mailto:moviecompany@example.com">
+        <p name = "footerPara" id="footerPara" style="color:#ffffff">
+            © 2025 Movie Company 
+        </p>
+        <a href="mailto:moviecompany@example.com" 
+            style="color:#ffffff">
             moviecompany@example.com</a>
+        <br><br>
     </footer>
 
     <script name="homeJS" id="homeJS" src="/javaScript/home.js">

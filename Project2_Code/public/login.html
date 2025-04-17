@@ -3,21 +3,23 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <header name="header" id="header">
-        <link rel="stylesheet" href="css/login.css" name="stylesheet"
+    <link rel="stylesheet" href="css/login.css" name="stylesheet"
             id="stylesheet"> 
-        <link href='https://fonts.googleapis.com/css?family=Zilla Slab' 
-            rel='stylesheet'>
-        <link href='https://fonts.googleapis.com/css?family=Barlow' 
-            rel='stylesheet'>
-        <h1 name="headingOne" id="headingOne"
-            style="font-family:'Zilla Slab';">
+    <link href='https://fonts.googleapis.com/css?family=Zilla Slab' 
+        rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Barlow' 
+        rel='stylesheet'>
+    <header id="header"name="header" 
+        style="background-color: #1e5c8d; margin: 0;
+        padding: 0;">
+        <h1 id="headingOne" name="headingOne" 
+            style="font-family:'Zilla Slab'; color:#ffffff;">
             <img src="tv.png" name="logo" id="logoImage" alt=
                 "Movie TV Logo" width="70" height="50" > <br>
             Movie Company <br>
         </h1>
         <form name="navigationForm" id="navigationForm" style=
-            "display:inline-block;">
+            "display:inline-block; margin-left: 10px; padding: 10px;">
             <input type="submit" id="submitHomePage" value="Home" 
                 formaction="home.html" name="submitHomePage" />
             <input type="submit" id="submitLoginPage" value="Login" 
@@ -26,12 +28,11 @@
                 "Gallery" formaction="gallery.html" name=
                 "submitGalleryPage"/>
         </form>  
-        
+        <br><br>
     </header>
-
-    <br>
     <br><br>
-    <div name="loginFormDiv" id="loginFormDiv" >
+    <div name="loginFormDiv" id="loginFormDiv" 
+        style="margin-left: 10px; padding: 10px;">
         <form name="login" id="loginForm" action="/login" 
             method="POST">
             Username:
@@ -53,11 +54,16 @@
     </div>
     <br><br>
  
-    <footer name="loginFooter" id="loginFooter">
+    <footer name="loginFooter" id="loginFooter"
+        style="background-color: #1e5c8d; margin: 0;padding: 0;">
         <br><br>
-        © 2025 Movie Company <br>
-        <a href="mailto:moviecompany@example.com">
+        <p name = "footerPara" id="footerPara" style="color:#ffffff">
+            © 2025 Movie Company 
+        </p>
+        <a href="mailto:moviecompany@example.com" 
+            style="color:#ffffff">
             moviecompany@example.com</a>
+        <br><br>
     </footer>
    
     <script id="loginJS" name="loginJS" src="/javaScript/login.js">

@@ -265,6 +265,7 @@ function createAddBtn() {
     addButton.textContent = "Add Movie";
     addButton.id = "addMovieButton";
     addButton.style.marginBottom = "15px";
+    addButton.style.marginLeft = "20px";
     addButton.addEventListener("click", () => {
         window.location.href = "addMovie.html";
     });

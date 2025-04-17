@@ -1,9 +1,5 @@
 /* CSS file for home.html style */
 
-* {
-box-sizing: border-box;
-}
-
 /* Slideshow container */
 .slideshow-container {
 max-width: 1000px;
@@ -15,5 +11,15 @@ margin: auto;
 
 * {
     font-family: 'Barlow';
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, p, footer, a {
+    margin: 10px;
+    padding: 10px;
 }
 
